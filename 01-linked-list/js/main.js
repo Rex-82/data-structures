@@ -83,6 +83,33 @@ class LinkedList {
 		}
 	}
 
+	// Remove a node at index position
+	remove(index) {
+		// Check if index goes out-of-bounds
+		if (index < 0 || index > this.size) {
+			return null;
+		}
+
+		let removedNode;
+
+		// check if index points to the first node
+		if (index === 0) {
+			removedNode = this.head;
+			this.head = this.head.next; // Move the head to the next node
+		}
+		// Index is > 0 and < this.size
+		else {
+			let prev = this.head;
+			for (let ii = 0; ii < index - 1; ii++) {
+				prev = prev.next;
+			}
+			removedNode = prev.next;
+			prev.next = removedNode.next;
+		}
+		this.size--;
+		return removedNode.value;
+	}
+
 	// Print the list content
 	print() {
 		// Check if list is empty
@@ -146,15 +173,19 @@ console.log("--------------");
 console.log(`list3 is empty? ${list3.isEmpty()}`); // "list3 is empty? true"
 console.log(`list3 size: ${list3.getSize()}`); // "list3 size: 0"
 
-// Testing insert
+// Testing insert and remove
 list3.print(); // "list3 is empty"
 list3.append(20);
 list3.append(30);
 list3.print(); // "20 30"
-list3.insert(10, 0); // "append"
+
+list3.insert(10, 0); // "same as append"
 console.log(list3.insert(10, -3)); // "-1"
 console.log(list3.insert(10, 10)); // "-1"
-console.time("insert");
 list3.insert(25, 2);
 list3.print(); // "10 20 25 30"
-console.timeEnd("insert"); // Index has O(1) time complexity
+
+console.log(list3.remove(20)); // "null"
+console.log(list3.remove(20)); // "null"
+console.log(list3.remove(3)); // "30" (value at node with index "3")
+list3.print();
